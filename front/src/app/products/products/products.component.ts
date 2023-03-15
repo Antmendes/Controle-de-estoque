@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
@@ -13,11 +14,17 @@ import { Product } from '../model/product';
 export class ProductsComponent implements OnInit {
 
   products$: Observable<Product[]>;
-  displayedColumns = ['id', 'nome', 'cod', 'qtdMin', 'saldoInicial'];
+  displayedColumns = ['id', 'nome', 'categoria', 'qtd', 'acoes'];
 
   
 
-  constructor(private productsService: ProductsService, public dialog: MatDialog) {
+  constructor(private productsService: ProductsService,
+               public dialog: MatDialog,
+               private router: Router,
+               private route: ActivatedRoute
+               
+               )      
+    {
     this.products$ = this.productsService.findAll()
     .pipe(
       catchError(error => {
@@ -25,6 +32,10 @@ export class ProductsComponent implements OnInit {
         return of([])
       })
     );
+   }
+
+   onAdd(){
+    this.router.navigate(['new'], {relativeTo: this.route} )
    }
 
    openError(errorMsg: string) {

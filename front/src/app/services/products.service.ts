@@ -6,11 +6,15 @@ import { HttpClient } from '@angular/common/http'
   providedIn: 'root'
 })
 export class ProductsService {
-  private API = './assets/aproducts.json'
+  private API = 'api/products'
 
   constructor(private httpClient: HttpClient) { }
 
   findAll() {
     return  this.httpClient.get<Product[]>(this.API);
+  }
+
+  save(product: Product) {
+    return this.httpClient.post<Product>(this.API, product)
   }
 }
