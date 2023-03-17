@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
-import { Product } from '../model/product';
+import { Product } from '../../model/product';
 
 @Component({
   selector: 'app-products',
@@ -14,7 +14,7 @@ import { Product } from '../model/product';
 export class ProductsComponent implements OnInit {
 
   products$: Observable<Product[]>;
-  displayedColumns = ['id', 'nome', 'categoria', 'qtd', 'acoes'];
+  
 
   
 
@@ -36,6 +36,10 @@ export class ProductsComponent implements OnInit {
 
    onAdd(){
     this.router.navigate(['new'], {relativeTo: this.route} )
+   }
+
+   onEdit(product: Product){
+    this.router.navigate(['edit', product.id], {relativeTo: this.route} )
    }
 
    openError(errorMsg: string) {

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,13 @@ public class ProductsController {
 	public @ResponseBody List<Product> list(){
 		return productsRepository.findAll();
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity <Product> findById(@PathVariable Long id) {
+		return productsRepository.findById(id)
+				.map(record -> ResponseEntity.ok().body(record))
+				.orElse(ResponseEntity.notFound().build());
+		}
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)

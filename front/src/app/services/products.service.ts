@@ -14,7 +14,22 @@ export class ProductsService {
     return  this.httpClient.get<Product[]>(this.API);
   }
 
-  save(product: Product) {
+  loadById(id: number){
+    return this.httpClient.get<Product>(`${this.API}/${id}`)
+  }
+
+  save(product: Partial<Product>) {
+    if(product.id){
+      return this.update(product)
+    }
+    return this.create(product)
+  }
+
+  private create(product: Partial<Product>){
     return this.httpClient.post<Product>(this.API, product)
+  }
+
+  private update(product: Partial<Product>){
+    return this.httpClient.put<Product>(`${this.API}/${product.id}`, product)
   }
 }
